@@ -1,18 +1,20 @@
 class Artist
+  attr_reader :name
+  @@all = []
   def initialize(name)
     @name = name
-    @songs = []
+    @@all << self
   end
-  def add_song(song)
-    @songs << song
-    song.artist = self
+  def self.all
+    @@all
+  end
+  def new_song(song_name, genre)
+    Song.new(song_name, self, genre)
   end
   def songs
-    @songs
+    Song.all.select { |song| song.artist == self }
   end
   def genres
-    @songs.collect do |song|
-      song.genre
-    end
+    songs.collect { |song| song.genre }
   end
-end
+end 
